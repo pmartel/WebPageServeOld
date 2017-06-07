@@ -25,14 +25,20 @@ const char Head[] = (\
 //<form action="/action_page.php">
 const char Bod[] =(\
 "\
-<h1 style=\"font-size:500%;\">\
+<h1 style=\"font-size:200%;\">\
 <form  action=\"/\"<br><br>\
   &nbsp;&nbsp;<input type=\"radio\" name=\"LED\" value=\"1\"> Blue LED On<br><br>\
   &nbsp;&nbsp<input type=\"radio\" name=\"LED\" value=\"0\"> Blue LED Off<br><br>\
   <input type=\"submit\">\
 </form><br />\r\n\
+<form  action=\"/\"\
+  &nbsp;&nbsp;<input type=\"submit\" name=\"LED=1\" value=\"LED On\">\
+</form><br />\r\n\
 </h1>\
 ");
+//<form  action=\"/\"\
+//  &nbsp;&nbsp;<input type=\"submit\" name=\"LED=0\" value=\"LED Off\">\
+//</form><br />\r\n\
 
 const char Tail[] = "</body></html>\r\n";
 
