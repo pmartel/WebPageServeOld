@@ -22,19 +22,11 @@ const char Head[] = (\
 "Thing Dev Board Web Page</title></head><body>\r\n"\
 );
 
-//<form action="/action_page.php">
-const char Bod[] =(\
-"\
-<h1 style=\"font-size:200%;\">\
-<form  action=\"/\"<br><br>\
-  &nbsp;&nbsp;<input type=\"radio\" name=\"LED\" value=\"1\"> Blue LED On<br><br>\
-  &nbsp;&nbsp<input type=\"radio\" name=\"LED\" value=\"0\"> Blue LED Off<br><br>\
-  <input type=\"submit\">\
-</form><br />\r\n\
-<form  action=\"/\"\
-  &nbsp;&nbsp;<input type=\"submit\" name=\"LED=1\" value=\"LED On\">\
-</form><br />\r\n\
-</h1>\
+// use anchors instead of forms for this version
+const char Bod[] =("\
+<br />\
+&nbsp;&nbsp;&nbsp;<a href=\"thing.local/?LED=1\">Blue LED On</a><br /><br />\
+&nbsp;&nbsp;&nbsp;<a href=\"thing.local/?LED=0\">Blue LED Off</a><br />\
 ");
 //<form  action=\"/\"\
 //  &nbsp;&nbsp;<input type=\"submit\" name=\"LED=0\" value=\"LED Off\">\
