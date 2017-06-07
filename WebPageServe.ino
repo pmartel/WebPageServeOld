@@ -23,10 +23,11 @@ const char Head[] = (\
 );
 
 // use anchors instead of forms for this version
+// buttons inside anchors look good
 const char Bod[] =("\
 <br />\
-&nbsp;&nbsp;&nbsp;<a href=\"thing.local/?LED=1\">Blue LED On</a><br /><br />\
-&nbsp;&nbsp;&nbsp;<a href=\"thing.local/?LED=0\">Blue LED Off</a><br />\
+&nbsp;&nbsp;&nbsp;<a href=\"thing.local/?LED=1\"><button>Blue LED On</button></a><br /><br />\
+&nbsp;&nbsp;&nbsp;<a href=\"thing.local/?LED=0\"><button>Blue LED Off</button></a><br />\
 ");
 //<form  action=\"/\"\
 //  &nbsp;&nbsp;<input type=\"submit\" name=\"LED=0\" value=\"LED Off\">\
