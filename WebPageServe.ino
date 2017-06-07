@@ -25,10 +25,10 @@ const char Head[] = (\
 //<form action="/action_page.php">
 const char Bod[] =(\
 "\
-<h1>\
-<form  action=\"/\"<br>\
-  <input type=\"radio\" name=\"LED\" value=\"1\"> Blue LED On<br>\
-  <input type=\"radio\" name=\"LED\" value=\"0\"> Blue LED Off<br>\
+<h1 style=\"font-size:500%;\">\
+<form  action=\"/\"<br><br>\
+  &nbsp;&nbsp;<input type=\"radio\" name=\"LED\" value=\"1\"> Blue LED On<br><br>\
+  &nbsp;&nbsp<input type=\"radio\" name=\"LED\" value=\"0\"> Blue LED Off<br><br>\
   <input type=\"submit\">\
 </form><br />\r\n\
 </h1>\
