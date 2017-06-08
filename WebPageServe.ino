@@ -1,6 +1,9 @@
+
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
 
+// see C:\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\avr for avr/interrupt.h
+#include <MsTimer2.h>
 
 //#define DEBUG_SEND
 
@@ -21,13 +24,14 @@ const int DIGITAL_PIN = 12; // Digital pin to be read
 int led = 0;
 int blinker = 0;
 
+MSTimer2 tim();
+
 // Basic Web page
 const char Head[] = (\
 "HTTP/1.1 200 OK\r\n"\
 "Content-Type: text/html\r\n\r\n"\
 "<!DOCTYPE HTML>\r\n<html><head><title>\r\n"\
-"Thing Dev Board Web Page</title></head><body>\r\n"\
-);
+"Thing Dev Board Web Page</title></head><body>\r\n"\;
 // use anchors instead of forms for this version
 // buttons inside anchors look good
 const char Bod[] =("\
@@ -202,6 +206,7 @@ void initHardware()
   digitalWrite(LED_PIN, HIGH);
   // Don't need to set ANALOG_PIN as input, 
   // that's all it can be.
+  tim.set(1000L, toggleLED );
 }
 
 void setupMDNS()
@@ -220,10 +225,15 @@ void setupMDNS()
 }
 
 void startBlinker(){
-
+  tim.start();
 }
 
 void stopBlinker(){
-  
+  tim.stop(); 
+}
+
+void toggleLED(){
+  led = 1-led;
+  digitalWrite(LED_PIN, 1-led);
 }
 
