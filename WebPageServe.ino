@@ -1,6 +1,9 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
 
+
+//#define DEBUG_SEND
+
 //////////////////////
 // WiFi Definitions //
 //////////////////////
@@ -14,6 +17,10 @@ const int LED_PIN = 5; // Thing's onboard, green LED
 const int ANALOG_PIN = A0; // The only analog pin on the Thing
 const int DIGITAL_PIN = 12; // Digital pin to be read
 
+// globals for LED and blinker state
+int led = 0;
+int blinker = 0;
+
 // Basic Web page
 const char Head[] = (\
 "HTTP/1.1 200 OK\r\n"\
@@ -21,17 +28,14 @@ const char Head[] = (\
 "<!DOCTYPE HTML>\r\n<html><head><title>\r\n"\
 "Thing Dev Board Web Page</title></head><body>\r\n"\
 );
-
 // use anchors instead of forms for this version
 // buttons inside anchors look good
 const char Bod[] =("\
 <br />\
-&nbsp;&nbsp;&nbsp;<a href=\"thing.local/?LED=1\"><button>Blue LED On</button></a><br /><br />\
-&nbsp;&nbsp;&nbsp;<a href=\"thing.local/?LED=0\"><button>Blue LED Off</button></a><br />\
+&nbsp;&nbsp;&nbsp;<a href=\"./?LED=1\"><button>Blue LED On</button></a><br /><br />\
+&nbsp;&nbsp;&nbsp;<a href=\"./?LED=0\"><button>Blue LED Off</button></a><br /><br />\
 ");
-//<form  action=\"/\"\
-//  &nbsp;&nbsp;<input type=\"submit\" name=\"LED=0\" value=\"LED Off\">\
-//</form><br />\r\n\
+
 
 const char Tail[] = "</body></html>\r\n";
 
@@ -90,10 +94,23 @@ void loop()
     Serial.println(req.substring(index+1));
     switch ( c ){
       case '0':
-        digitalWrite(LED_PIN, 1);
+        led = 0;
+        blinker = 0;
+        digitalWrite(LED_PIN, 1-led);
         break; 
       case '1':
-        digitalWrite(LED_PIN, 0);
+        led = 1;
+        blinker = 0;
+        digitalWrite(LED_PIN, 1-led);
+        break;
+      case 'B':
+        if ( blinker ){
+          blinker = 0;
+          stopBlinker();
+        }else{
+          blinker = 1;
+          startBlinker();         
+        }
         break; 
       default:
         break; 
@@ -121,13 +138,19 @@ void loop()
   String s = "";
   s += Head;
   s += Bod;
+  if ( blinker ){
+    s += "&nbsp;&nbsp;&nbsp;<a href=\"./?LED=B\"><button>Blue LED Blink Off</button></a><br /><br />";
+  }else{
+    s += "&nbsp;&nbsp;&nbsp;<a href=\"./?LED=B\"><button>Blue LED Blink On</button></a><br /><br />";
+  }
   s += Tail;
 
   // report response
+#ifdef DEBUG_SEND
   Serial.println("\r\nSending <<<");
   Serial.println(s);
   Serial.println(">>> to web client\r\n");
-  
+#endif  
   // Send the response to the client
   client.print(s);
   delay(1);
@@ -171,6 +194,16 @@ void connectWiFi()
   Serial.println(WiFi.localIP());
 }
 
+void initHardware()
+{
+  Serial.begin(115200);
+  pinMode(DIGITAL_PIN, INPUT_PULLUP);
+  pinMode(LED_PIN, OUTPUT);
+  digitalWrite(LED_PIN, HIGH);
+  // Don't need to set ANALOG_PIN as input, 
+  // that's all it can be.
+}
+
 void setupMDNS()
 {
   // Call MDNS.begin(<domain>) to set up mDNS to point to
@@ -186,12 +219,11 @@ void setupMDNS()
 
 }
 
-void initHardware()
-{
-  Serial.begin(115200);
-  pinMode(DIGITAL_PIN, INPUT_PULLUP);
-  pinMode(LED_PIN, OUTPUT);
-  digitalWrite(LED_PIN, HIGH);
-  // Don't need to set ANALOG_PIN as input, 
-  // that's all it can be.
+void startBlinker(){
+
 }
+
+void stopBlinker(){
+  
+}
+
